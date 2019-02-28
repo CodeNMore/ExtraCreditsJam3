@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.screens;
 
 import dev.codenmore.ecjam.assets.Assets;
+import dev.codenmore.ecjam.level.tile.TileFactory;
 
 public class LoadingScreen extends Screen {
 
@@ -13,6 +14,8 @@ public class LoadingScreen extends Screen {
 	public void tick(float delta) {
 		// Step loading
 		if(Assets.step()) {
+			// Init tiles
+			TileFactory.init();
 			// Done loading
 			ScreenManager.swapScreen(new LevelSelectScreen());
 		}
@@ -20,17 +23,7 @@ public class LoadingScreen extends Screen {
 	
 	@Override
 	public void render() {
-		
-	}
-	
-	@Override
-	public void dispose() {
-		
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		
+		super.render();
 	}
 
 	@Override
