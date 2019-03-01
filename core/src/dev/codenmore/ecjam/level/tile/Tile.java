@@ -38,6 +38,10 @@ public class Tile {
 		batch.draw(texture, x, y, width, height);
 	}
 	
+	public TextureRegion getTexture() {
+		return texture;
+	}
+	
 	public boolean isSolid() {
 		return slope != TileSlope.NONE;
 	}

@@ -5,18 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import dev.codenmore.ecjam.assets.Assets;
-import dev.codenmore.ecjam.level.Room;
-import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.screens.LoadingScreen;
 import dev.codenmore.ecjam.screens.ScreenManager;
-import dev.codenmore.ecjam.ui.UIDisplay;
 
 public class Game extends ApplicationAdapter {
 	
 	// Globals
 	public static final String TITLE = "Life Recycle";
-	public static final float WIDTH = Tile.TILE_SIZE * Room.ROOM_WIDTH,
-							HEIGHT = Tile.TILE_SIZE * Room.ROOM_HEIGHT + UIDisplay.HEIGHT;
+	public static final float WIDTH = 800, HEIGHT = 600;
 	
 	@Override
 	public void create () {

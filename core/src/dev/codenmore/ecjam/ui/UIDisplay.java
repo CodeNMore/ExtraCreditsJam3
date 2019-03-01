@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codenmore.ecjam.Game;
 import dev.codenmore.ecjam.assets.Assets;
-import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.screens.GameScreen;
 
 public class UIDisplay {
 	
 	// Globals
-	public static final float WIDTH = Game.WIDTH, HEIGHT = Tile.TILE_SIZE * 2,
+	public static final float WIDTH = Game.WIDTH, HEIGHT = 100,
 							YOFFSET = Game.HEIGHT - HEIGHT;
 	
 	private GameScreen gameScreen;
@@ -28,6 +27,7 @@ public class UIDisplay {
 		batch.setColor(Color.PURPLE);
 		batch.draw(Assets.getRegion("pixel"), 0, YOFFSET, WIDTH, HEIGHT);
 		batch.setColor(Color.WHITE);
+		batch.draw(Assets.getRegion("pixel"), 5, YOFFSET + 5, 40, 40);
 	}
 	
 	public GameScreen getGameScreen() {

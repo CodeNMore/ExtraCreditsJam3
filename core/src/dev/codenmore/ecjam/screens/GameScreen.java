@@ -1,5 +1,8 @@
 package dev.codenmore.ecjam.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+
 import dev.codenmore.ecjam.level.Level;
 import dev.codenmore.ecjam.ui.UIDisplay;
 
@@ -18,6 +21,10 @@ public class GameScreen extends Screen {
 	public void tick(float delta) {
 		level.tick(delta);
 		ui.tick(delta);
+		
+		// Temporary: check for level editor entry
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE))
+			ScreenManager.pushScreen(new LevelEditorScreen());
 	}
 	
 	@Override
