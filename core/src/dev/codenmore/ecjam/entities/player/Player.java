@@ -2,6 +2,7 @@ package dev.codenmore.ecjam.entities.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Rectangle;
 
 import dev.codenmore.ecjam.assets.Assets;
 import dev.codenmore.ecjam.entities.MovableEntity;
@@ -28,7 +29,7 @@ public class Player extends MovableEntity {
 		updateState();
 		
 		// Center on us
-		getLevel().centerOn(getBounds());
+		getLevel().centerOn(getBounds(), delta);
 	}
 	
 	private void updateControls(float delta) {
@@ -44,25 +45,37 @@ public class Player extends MovableEntity {
 	
 	private void updateState() {
 		// Check if changing state
-		if(Gdx.input.isKeyJustPressed(Keys.E)) {
+		if(Gdx.input.isKeyJustPressed(Keys.E) && canGoToNextAgeState()) {
 			// Check which state to transition to
-			if(ageState == AgeState.baby) {
-				ageState = AgeState.teen;
-			}else if(ageState == AgeState.teen) {
-				ageState = AgeState.adult;
-			}else if(ageState == AgeState.adult) {
-				ageState = AgeState.old;
-			}else if(ageState == AgeState.old) {
-				ageState = AgeState.baby;
-			}
+			ageState = getNextAgeState();
 			// Set our new speed
 			speed = ageState.speed;
 		}
 		
 		// Set proper texture
 		texture = Assets.getRegion("player/" + ageState.toString() + "_" + (vx < 0 ? "left" : "right"));
-		width = texture.getRegionWidth() * 5;
-		height = texture.getRegionHeight() * 5;
+		width = ageState.width;
+		height = ageState.height;
+	}
+	
+	private boolean canGoToNextAgeState() {
+		if(!isOnGround() || isMoving()) return false;
+		AgeState ns = getNextAgeState();
+		Rectangle b = new Rectangle(x, y, ns.width, ns.height);
+		return !getLevel().anyTileSolidWithin(b);
+	}
+	
+	private AgeState getNextAgeState() {
+		// Get next age state
+		if(ageState == AgeState.teen) {
+			return AgeState.adult;
+		}else if(ageState == AgeState.adult) {
+			return AgeState.old;
+		}else if(ageState == AgeState.old) {
+			return AgeState.baby;
+		}
+		// Baby to teen here
+		return AgeState.teen;
 	}
 	
 	public AgeState getAgeState() {

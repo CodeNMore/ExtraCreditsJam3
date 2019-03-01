@@ -8,7 +8,7 @@ public abstract class MovableEntity extends Entity {
 	protected float speed;
 	protected float vx, vy;
 	
-	private boolean isOnGround = false;
+	private boolean onGround = false, moving = true;
 	
 	public MovableEntity(float x, float y, float width, float height) {
 		super(x, y, width, height);
@@ -17,7 +17,7 @@ public abstract class MovableEntity extends Entity {
 	private float isYCollisions(float oldY) {
 		if(oldY > y) {
 			// Downward travel
-			isOnGround = false;
+			onGround = false;
 			
 			// Calculate tile coordinates
 			int oldTy = (int) (oldY / Tile.TILE_SIZE);
@@ -28,7 +28,7 @@ public abstract class MovableEntity extends Entity {
 				for(int ty = oldTy;ty >= farTy;ty--) {
 					// For now only checking if solid
 					if(getLevel().getTile(tx, ty).isSolid()) {
-						isOnGround = true;
+						onGround = true;
 						vy = 0f;
 						return ty * Tile.TILE_SIZE + Tile.TILE_SIZE;
 					}
@@ -36,7 +36,7 @@ public abstract class MovableEntity extends Entity {
 			}
 		}else if(oldY < y){
 			// Upward travel
-			isOnGround = false;
+			onGround = false;
 			
 			// Calculate tile coordinates
 			int oldTy = (int) ((oldY + height - 1) / Tile.TILE_SIZE);
@@ -112,10 +112,21 @@ public abstract class MovableEntity extends Entity {
 		// Move with X collisions
 		x += vx * delta;
 		x = isXCollisions(oldX);
+		
+		// Check if moving
+		moving = !(oldX == x && oldY == y);
+	}
+	
+	public boolean isOnGround() {
+		return onGround;
+	}
+	
+	public boolean isMoving() {
+		return moving;
 	}
 	
 	protected void jump(int strength) {
-		if(!isOnGround) return;
+//		if(!isOnGround()) return;
 		vy += Level.GRAVITY * strength;
 	}
 

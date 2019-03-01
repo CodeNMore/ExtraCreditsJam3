@@ -10,7 +10,7 @@ import dev.codenmore.ecjam.screens.GameScreen;
 public class UIDisplay {
 	
 	// Globals
-	public static final float WIDTH = Game.WIDTH, HEIGHT = 100,
+	public static final float WIDTH = Game.WIDTH, HEIGHT = 48,
 							YOFFSET = Game.HEIGHT - HEIGHT;
 	
 	private GameScreen gameScreen;

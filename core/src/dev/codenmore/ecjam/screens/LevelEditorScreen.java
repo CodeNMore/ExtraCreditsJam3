@@ -54,6 +54,14 @@ public class LevelEditorScreen extends Screen {
 			width = Integer.parseInt(JOptionPane.showInputDialog("Enter width:"));
 			height = Integer.parseInt(JOptionPane.showInputDialog("Enter height:"));
 			tileIds = new int[width][height];
+			for(int y = 0;y < height;y++) {
+				for(int x = 0;x < width;x++) {
+					if(x == 0 || x == width - 1 || y == 0 || y == height - 1)
+						tileIds[x][y] = 1;
+					else
+						tileIds[x][y] = 0;
+				}
+			}
 		}
 		
 		rtsize = (float) Math.min(rtwidth / width, rtheight / height);

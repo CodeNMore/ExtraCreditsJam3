@@ -68,8 +68,28 @@ public class Level {
 		batch.end();
 	}
 	
-	public void centerOn(Rectangle bounds) {
-		cam.position.set(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, 0);
+	public void centerOn(Rectangle bounds, float delta) {
+		float dx = bounds.x + bounds.width / 2;
+		float dy = bounds.y + bounds.height / 2;
+		float mult = Math.min(6 * delta, 1f);
+		cam.position.add((dx - cam.position.x) * mult, 
+				(dy - cam.position.y) * mult, 0);
+	}
+	
+	public boolean anyTileSolidWithin(Rectangle bounds) {
+		int tx0 = (int) (bounds.x / Tile.TILE_SIZE);
+		int tx1 = (int) ((bounds.x + bounds.width) / Tile.TILE_SIZE);
+		int ty0 = (int) (bounds.y / Tile.TILE_SIZE);
+		int ty1 = (int) ((bounds.y + bounds.height) / Tile.TILE_SIZE);
+		
+		for(int ty = ty0;ty <= ty1;ty++) {
+			for(int tx = tx0;tx <= tx1;tx++) {
+				if(getTile(tx, ty).isSolid())
+					return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public Tile getTile(int x, int y) {
