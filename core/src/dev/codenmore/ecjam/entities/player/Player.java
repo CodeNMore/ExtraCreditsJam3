@@ -15,6 +15,7 @@ public class Player extends MovableEntity {
 		super("Player", x, y, 64, 64);
 		ageState = AgeState.baby;
 		speed = ageState.speed;
+		collisionOffsets.set(ageState.collisionOffsets);
 	}
 	
 	@Override
@@ -50,13 +51,14 @@ public class Player extends MovableEntity {
 			ageState = getNextAgeState();
 			// Set our new speed
 			speed = ageState.speed;
+			// Set new collisions
+			collisionOffsets.set(ageState.collisionOffsets);
 		}
 		
 		// Set proper texture
 		texture = Assets.getRegion("player/" + ageState.toString() + "_" + (vx < 0 ? "left" : "right"));
 		width = ageState.width;
 		height = ageState.height;
-//		texture = Assets.getRegion("pixel"); // debug
 	}
 	
 	private boolean canGoToNextAgeState() {
