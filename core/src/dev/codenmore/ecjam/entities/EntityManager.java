@@ -52,5 +52,9 @@ public class EntityManager {
 	public void removeEntity(Entity e) {
 		toRemove.add(e);
 	}
+	
+	public Level getLevel() {
+		return level;
+	}
 
 }

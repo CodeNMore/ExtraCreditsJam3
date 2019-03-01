@@ -3,6 +3,7 @@ package dev.codenmore.ecjam.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -10,12 +11,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import dev.codenmore.ecjam.Game;
 import dev.codenmore.ecjam.entities.EntityManager;
-import dev.codenmore.ecjam.entities.Player;
+import dev.codenmore.ecjam.entities.player.Player;
 import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.level.tile.TileFactory;
 import dev.codenmore.ecjam.screens.GameScreen;
 
 public class Level {
+	
+	// Globals
+	public static final float GRAVITY = 9f;
 	
 	// Display stuff
 	private OrthographicCamera cam;
@@ -62,6 +66,14 @@ public class Level {
 		entityManager.render(batch);
 		
 		batch.end();
+	}
+	
+	public void centerOn(Rectangle bounds) {
+		cam.position.set(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, 0);
+	}
+	
+	public Tile getTile(int x, int y) {
+		return TileFactory.getTile(tileIds[x][y]);
 	}
 	
 	public void fromJson(JsonValue json) {

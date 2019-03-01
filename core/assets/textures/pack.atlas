@@ -1,6 +1,6 @@
 
 pack.png
-size: 128,16
+size: 256,16
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -11,30 +11,58 @@ pixel
   orig: 1, 1
   offset: 0, 0
   index: -1
-player/adult_right
+player/adult_left
   rotate: false
   xy: 64, 1
   size: 16, 15
   orig: 16, 15
   offset: 0, 0
   index: -1
-player/baby_right
+player/adult_right
   rotate: false
-  xy: 102, 5
+  xy: 80, 1
+  size: 16, 15
+  orig: 16, 15
+  offset: 0, 0
+  index: -1
+player/baby_left
+  rotate: false
+  xy: 140, 5
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
   index: -1
-player/old_right
+player/baby_right
   rotate: false
-  xy: 92, 2
+  xy: 150, 5
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+player/old_left
+  rotate: false
+  xy: 120, 2
   size: 10, 14
   orig: 10, 14
   offset: 0, 0
   index: -1
+player/old_right
+  rotate: false
+  xy: 130, 2
+  size: 10, 14
+  orig: 10, 14
+  offset: 0, 0
+  index: -1
+player/teen_left
+  rotate: false
+  xy: 96, 2
+  size: 12, 14
+  orig: 12, 14
+  offset: 0, 0
+  index: -1
 player/teen_right
   rotate: false
-  xy: 80, 2
+  xy: 108, 2
   size: 12, 14
   orig: 12, 14
   offset: 0, 0

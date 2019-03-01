@@ -2,6 +2,9 @@ package dev.codenmore.ecjam.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+
+import dev.codenmore.ecjam.level.Level;
 
 public abstract class Entity {
 	
@@ -9,12 +12,14 @@ public abstract class Entity {
 	protected TextureRegion texture;
 	protected float x, y;
 	protected float width, height;
+	private Rectangle bounds;
 	
 	public Entity(float x, float y, float width, float height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		bounds = new Rectangle(x, y, width, height);
 	}
 	
 	public abstract void tick(float delta);
@@ -22,6 +27,15 @@ public abstract class Entity {
 	public void render(SpriteBatch batch) {
 		if(texture != null)
 			batch.draw(texture, x, y, width, height);
+	}
+	
+	public Level getLevel() {
+		return manager.getLevel();
+	}
+	
+	public Rectangle getBounds() {
+		bounds.set(x, y, width, height);
+		return bounds;
 	}
 	
 	public void setManager(EntityManager manager) {
