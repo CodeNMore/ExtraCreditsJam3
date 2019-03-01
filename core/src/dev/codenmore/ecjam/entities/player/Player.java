@@ -29,7 +29,7 @@ public class Player extends MovableEntity {
 		updateState();
 		
 		// Center on us
-		getLevel().centerOn(getBounds(), delta);
+		getLevel().centerOn(getRenderBounds(), delta);
 	}
 	
 	private void updateControls(float delta) {
@@ -56,7 +56,7 @@ public class Player extends MovableEntity {
 		texture = Assets.getRegion("player/" + ageState.toString() + "_" + (vx < 0 ? "left" : "right"));
 		width = ageState.width;
 		height = ageState.height;
-		texture = Assets.getRegion("pixel"); // debug
+//		texture = Assets.getRegion("pixel"); // debug
 	}
 	
 	private boolean canGoToNextAgeState() {

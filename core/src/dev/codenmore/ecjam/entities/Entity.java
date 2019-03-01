@@ -15,7 +15,9 @@ public abstract class Entity {
 	protected String name;
 	protected float x, y;
 	protected float width, height;
+	protected Rectangle collisionOffsets;
 	private Rectangle bounds;
+	private Rectangle collisionBounds;
 	
 	public Entity(String name, float x, float y, float width, float height) {
 		this.name = name;
@@ -23,7 +25,9 @@ public abstract class Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		collisionOffsets = new Rectangle(0, 0, 0, 0);
 		bounds = new Rectangle(x, y, width, height);
+		collisionBounds = new Rectangle(x, y, width, height);
 	}
 	
 	public Entity(JsonValue json) {
@@ -56,7 +60,14 @@ public abstract class Entity {
 		return manager.getLevel();
 	}
 	
-	public Rectangle getBounds() {
+	public Rectangle getCollisionBounds() {
+		collisionBounds.set(x + collisionOffsets.x, y + collisionOffsets.y, 
+				width - collisionOffsets.x - collisionOffsets.width, 
+				height - collisionOffsets.y - collisionOffsets.height);
+		return collisionBounds;
+	}
+	
+	public Rectangle getRenderBounds() {
 		bounds.set(x, y, width, height);
 		return bounds;
 	}
