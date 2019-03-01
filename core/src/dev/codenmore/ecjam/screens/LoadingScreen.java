@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.screens;
 
 import dev.codenmore.ecjam.assets.Assets;
+import dev.codenmore.ecjam.entities.EntityFactory;
 import dev.codenmore.ecjam.level.tile.TileFactory;
 
 public class LoadingScreen extends Screen {
@@ -16,6 +17,8 @@ public class LoadingScreen extends Screen {
 		if(Assets.step()) {
 			// Init tiles
 			TileFactory.init();
+			// Init entities
+			EntityFactory.init();
 			// Done loading
 			ScreenManager.swapScreen(new LevelSelectScreen());
 		}

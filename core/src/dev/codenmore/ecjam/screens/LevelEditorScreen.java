@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
@@ -14,9 +15,13 @@ import com.badlogic.gdx.utils.JsonValue.ValueType;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import dev.codenmore.ecjam.Game;
+import dev.codenmore.ecjam.assets.Assets;
+import dev.codenmore.ecjam.entities.Entity;
+import dev.codenmore.ecjam.entities.EntityFactory;
 import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.level.tile.TileFactory;
 import dev.codenmore.ecjam.ui.ClickHandler;
+import dev.codenmore.ecjam.ui.TextButton;
 import dev.codenmore.ecjam.ui.TextureButton;
 
 public class LevelEditorScreen extends Screen {
@@ -28,12 +33,15 @@ public class LevelEditorScreen extends Screen {
 	private float rtwidth = Game.WIDTH - 200, rtheight = Game.HEIGHT, riconsize = 32;
 	private float rtsize = 8;
 	private Array<TextureButton> buttons;
+	private Array<Entity> entities;
 	
 	private int curTileId = 0;
+	private float entX, entY;
 	
 	public LevelEditorScreen() {
 		id = Integer.parseInt(JOptionPane.showInputDialog("Level ID to load or create:"));
 		buttons = new Array<TextureButton>();
+		entities = new Array<Entity>();
 		
 		Tile[] allTiles = TileFactory.getAllTiles();
 		for(int i = 0;i < allTiles.length;i++) {
@@ -43,6 +51,17 @@ public class LevelEditorScreen extends Screen {
 				@Override
 				public void onClick() {
 					curTileId = tid;
+				}}));
+		}
+		
+		Array<String> allEntityNames = EntityFactory.getAllEntityNames();
+		for(int i = 0;i < allEntityNames.size;i++) {
+			final String name = allEntityNames.get(i);
+			buttons.add(new TextButton(name, rtwidth + 40, 
+					25 + i * riconsize, riconsize*4, riconsize/1.8f, new ClickHandler() {
+				@Override
+				public void onClick() {
+					entities.add(EntityFactory.makeEntityEditor(name, entX * Tile.TILE_SIZE, entY * Tile.TILE_SIZE));
 				}}));
 		}
 		
@@ -78,14 +97,28 @@ public class LevelEditorScreen extends Screen {
 				.writeString(json.prettyPrint(ps), false);
 			System.out.println("level " + id + " saved");
 			ScreenManager.disposeScreen();
+		}else if(Gdx.input.isKeyJustPressed(Keys.BACKSPACE) || Gdx.input.isKeyJustPressed(Keys.DEL)) {
+			for(Entity e : entities) {
+				if(e.getX() == entX * Tile.TILE_SIZE && e.getY() == entY * Tile.TILE_SIZE) {
+					entities.removeValue(e, true);
+					break;
+				}
+			}
 		}
 		
 		if(Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 			// Check for option clicks
 			Vector2 coords = unproject(Gdx.input.getX(), Gdx.input.getY());
-			for(TextureButton b : buttons)
-				if(b.getBounds().contains(coords))
-					b.onClick();
+			int tx = (int) (coords.x / rtsize);
+			int ty = (int) (coords.y / rtsize);
+			if(tx >= 0 && ty >= 0 && tx < width && ty < height) {
+				entX = tx;
+				entY = ty;
+			}else {
+				for(TextureButton b : buttons)
+					if(b.getBounds().contains(coords))
+						b.onClick();
+			}
 		}else if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			// Draw on map
 			Vector2 coords = unproject(Gdx.input.getX(), Gdx.input.getY());
@@ -93,6 +126,10 @@ public class LevelEditorScreen extends Screen {
 			int ty = (int) (coords.y / rtsize);
 			if(tx >= 0 && ty >= 0 && tx < width && ty < height) {
 				tileIds[tx][ty] = curTileId;
+			}else {
+				for(TextureButton b : buttons)
+					if(b.getBounds().contains(coords))
+						b.onClick();
 			}
 		}
 	}
@@ -110,6 +147,18 @@ public class LevelEditorScreen extends Screen {
 				TileFactory.getTile(tileIds[x][y]).render(batch, x * rtsize, y * rtsize, rtsize, rtsize);
 			}
 		}
+		
+		batch.setColor(Color.GREEN);
+		for(Entity e : entities) {
+			batch.draw(Assets.getRegion("pixel"), (e.getX() / Tile.TILE_SIZE) * rtsize + rtsize/3,
+					(e.getY() / Tile.TILE_SIZE) * rtsize + rtsize/3, rtsize/3, rtsize/3);
+		}
+		
+		batch.setColor(Color.RED);
+		batch.draw(Assets.getRegion("pixel"), entX * rtsize + rtsize / 2, entY * rtsize + rtsize / 2, 
+				rtsize / 3, rtsize / 3);
+		
+		batch.setColor(Color.WHITE);
 		
 		batch.end();
 	}
@@ -130,6 +179,11 @@ public class LevelEditorScreen extends Screen {
 		}
 		ret.addChild("tileIds", rows);
 		
+		JsonValue ents = new JsonValue(ValueType.array);
+		for(Entity e : entities)
+			ents.addChild(e.toJson());
+		ret.addChild("entities", ents);
+		
 		return ret;
 	}
 	
@@ -145,6 +199,14 @@ public class LevelEditorScreen extends Screen {
 			for(int x = 0;x < width;x++) {
 				tileIds[x][y] = cols.getInt(x);
 			}
+		}
+		
+		entities.clear();
+		JsonValue ents = json.get("entities");
+		for(int i = 0;i < ents.size;i++) {
+			JsonValue ent = ents.get(i);
+			Entity e = EntityFactory.makeEntity(ent.getString("name"), ent);
+			entities.add(e);
 		}
 	}
 

@@ -3,6 +3,8 @@ package dev.codenmore.ecjam.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonValue.ValueType;
 
 import dev.codenmore.ecjam.level.Level;
 
@@ -10,11 +12,13 @@ public abstract class Entity {
 	
 	protected EntityManager manager;
 	protected TextureRegion texture;
+	protected String name;
 	protected float x, y;
 	protected float width, height;
 	private Rectangle bounds;
 	
-	public Entity(float x, float y, float width, float height) {
+	public Entity(String name, float x, float y, float width, float height) {
+		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -22,7 +26,26 @@ public abstract class Entity {
 		bounds = new Rectangle(x, y, width, height);
 	}
 	
+	public Entity(JsonValue json) {
+		this("", 0, 0, 0, 0);
+		fromJson(json);
+	}
+	
 	public abstract void tick(float delta);
+	
+	protected void fromJson(JsonValue val) {
+		x = val.getFloat("x");
+		y = val.getFloat("y");
+		name = val.getString("name");
+	}
+	
+	public JsonValue toJson() {
+		JsonValue ret = new JsonValue(ValueType.object);
+		ret.addChild("x", new JsonValue(x));
+		ret.addChild("y", new JsonValue(y));
+		ret.addChild("name", new JsonValue(name));
+		return ret;
+	}
 	
 	public void render(SpriteBatch batch) {
 		if(texture != null)

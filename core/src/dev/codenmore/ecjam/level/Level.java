@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import dev.codenmore.ecjam.Game;
+import dev.codenmore.ecjam.entities.EntityFactory;
 import dev.codenmore.ecjam.entities.EntityManager;
 import dev.codenmore.ecjam.entities.player.Player;
 import dev.codenmore.ecjam.level.tile.Tile;
@@ -31,6 +32,7 @@ public class Level {
 	private int width, height;
 	private int[][] tileIds;
 	
+	private JsonValue originalJson;
 	private EntityManager entityManager;
 
 	public Level(GameScreen gameScreen, int levelId) {
@@ -45,7 +47,8 @@ public class Level {
 		entityManager = new EntityManager(this);
 		entityManager.addEntity(new Player(128, 128));
 		
-		fromJson(new JsonReader().parse(Gdx.files.internal("levels/" + levelId + ".txt")));
+		originalJson = new JsonReader().parse(Gdx.files.internal("levels/" + levelId + ".txt"));
+		fromJson(originalJson);
 	}
 	
 	public void tick(float delta) {
@@ -108,6 +111,12 @@ public class Level {
 			for(int x = 0;x < width;x++) {
 				tileIds[x][y] = cols.getInt(x);
 			}
+		}
+		
+		JsonValue ents = json.get("entities");
+		for(int i = 0;i < ents.size;i++) {
+			JsonValue ejson = ents.get(i);
+			entityManager.addEntity(EntityFactory.makeEntity(ejson.getString("name"), ejson));
 		}
 	}
 	

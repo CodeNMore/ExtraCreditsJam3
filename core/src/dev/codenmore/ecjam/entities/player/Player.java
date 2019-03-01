@@ -12,7 +12,7 @@ public class Player extends MovableEntity {
 	private AgeState ageState;
 
 	public Player(float x, float y) {
-		super(x, y, 64, 64);
+		super("Player", x, y, 64, 64);
 		ageState = AgeState.baby;
 		speed = ageState.speed;
 	}

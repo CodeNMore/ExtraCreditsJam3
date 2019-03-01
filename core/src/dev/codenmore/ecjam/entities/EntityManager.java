@@ -3,12 +3,14 @@ package dev.codenmore.ecjam.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
+import dev.codenmore.ecjam.entities.player.Player;
 import dev.codenmore.ecjam.level.Level;
 
 public class EntityManager {
 	
 	private Level level;
 	private Array<Entity> entities, toAdd, toRemove;
+	private Player player;
 	
 	public EntityManager(Level level) {
 		this.level = level;
@@ -18,15 +20,21 @@ public class EntityManager {
 	}
 	
 	public void tick(float delta) {
-		for(Entity e : toAdd)
+		for(Entity e : toAdd) {
+			if(e instanceof Player)
+				player = (Player) e;
 			entities.add(e);
+		}
 		toAdd.clear();
 		
 		for(Entity e : entities)
 			e.tick(delta);
 		
-		for(Entity e : toRemove)
+		for(Entity e : toRemove) {
+			if(player.equals(e))
+				player = null;
 			entities.removeValue(e, true);
+		}
 		toRemove.clear();
 	}
 	
@@ -42,6 +50,10 @@ public class EntityManager {
 				level.getCam().frustum.pointInFrustum(e.getX() + e.getWidth(), e.getY(), 0) ||
 				level.getCam().frustum.pointInFrustum(e.getX(), e.getY() + e.getHeight(), 0) ||
 				level.getCam().frustum.pointInFrustum(e.getX() + e.getWidth(), e.getY() + e.getHeight(), 0);
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	public void addEntity(Entity e) {

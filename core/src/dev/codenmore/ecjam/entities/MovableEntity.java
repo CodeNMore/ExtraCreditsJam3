@@ -10,8 +10,8 @@ public abstract class MovableEntity extends Entity {
 	
 	private boolean onGround = false, moving = true;
 	
-	public MovableEntity(float x, float y, float width, float height) {
-		super(x, y, width, height);
+	public MovableEntity(String name, float x, float y, float width, float height) {
+		super(name, x, y, width, height);
 	}
 	
 	private float isYCollisions(float oldY) {
@@ -126,7 +126,7 @@ public abstract class MovableEntity extends Entity {
 	}
 	
 	protected void jump(int strength) {
-//		if(!isOnGround()) return;
+		if(!isOnGround()) return;
 		vy += Level.GRAVITY * strength;
 	}
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class TextureButton {
 	
 	private TextureRegion texture;
-	private Rectangle bounds;
+	protected Rectangle bounds;
 	private ClickHandler handler;
 
 	public TextureButton(TextureRegion texture, float x, float y, float width, float height, ClickHandler handler) {
@@ -17,7 +17,8 @@ public class TextureButton {
 	}
 	
 	public void render(SpriteBatch batch) {
-		batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
+		if(texture != null)
+			batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
 	}
 	
 	public void onClick() {
