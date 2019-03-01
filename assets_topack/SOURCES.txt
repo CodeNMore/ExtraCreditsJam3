@@ -1,0 +1,5 @@
+At this point in time, the following resources have been used:
+
+The player textures were found at https://opengameart.org/content/villagers-and-stuff
+    These textures are under the CC-BY-3.0 license, with minor sizing/texture changes made.
+    The license can be found at: https://creativecommons.org/licenses/by/3.0/

@@ -16,7 +16,7 @@ public class Tile {
 	}
 	
 	// Globals
-	public static final float TILE_SIZE = 32f;
+	public static final float TILE_SIZE = 64f;
 	
 	private final int id;
 	private final TileSlope slope;

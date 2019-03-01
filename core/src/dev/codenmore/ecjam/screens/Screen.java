@@ -14,7 +14,7 @@ public abstract class Screen {
 
 protected InputMultiplexer inputMultiplexer;
 	
-	//Display stuff
+	// Display stuff
 	protected OrthographicCamera cam;
 	protected SpriteBatch batch;
 	protected Viewport viewport;

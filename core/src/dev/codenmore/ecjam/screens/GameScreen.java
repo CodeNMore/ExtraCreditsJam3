@@ -30,13 +30,29 @@ public class GameScreen extends Screen {
 	@Override
 	public void render() {
 		super.render();
+		
+		// Level has it's own batch/camera/viewport
+		level.render();
+		
+		// Begin our batch
 		batch.begin();
 		
-		level.render(batch);
 		ui.render(batch);
 		
 		// End batch
 		batch.end();
+	}
+	
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		level.resize(width, height);
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		level.dispose();
 	}
 
 	@Override
