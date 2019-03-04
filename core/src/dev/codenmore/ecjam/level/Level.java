@@ -29,7 +29,7 @@ public class Level {
 	
 	private GameScreen gameScreen;
 	private int id;
-	private int spawnX, spawnY;
+	private int spawnX, spawnY, lives;
 	private int width, height;
 	private int[][] tileIds;
 	private boolean needsInstantCenter = true;
@@ -51,7 +51,7 @@ public class Level {
 		originalJson = new JsonReader().parse(Gdx.files.internal("levels/" + levelId + ".txt"));
 		fromJson(originalJson);
 		
-		entityManager.addEntity(new Player(spawnX * Tile.TILE_SIZE, spawnY * Tile.TILE_SIZE));
+		entityManager.addEntity(new Player(spawnX * Tile.TILE_SIZE, spawnY * Tile.TILE_SIZE, lives));
 	}
 	
 	public void tick(float delta) {
@@ -70,8 +70,15 @@ public class Level {
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		
-		for(int y = 0;y < height;y++) {
-			for(int x = 0;x < width;x++) {
+		// Only render visible tiles
+		int sy = Math.max(0, (int) ((cam.position.y - Game.HEIGHT / 2) / Tile.TILE_SIZE));
+		int ey = Math.min(height, (int) ((cam.position.y + Game.HEIGHT / 2) / Tile.TILE_SIZE) + 1);
+		int sx = Math.max(0, (int) ((cam.position.x - Game.WIDTH / 2) / Tile.TILE_SIZE));
+		int ex = Math.min(width, (int)((cam.position.x + Game.WIDTH / 2) / Tile.TILE_SIZE) + 1);
+		
+		// Render them
+		for(int y = sy;y < ey;y++) {
+			for(int x = sx;x < ex;x++) {
 				TileFactory.getTile(tileIds[x][y]).render(batch, x, y, this);
 			}
 		}
@@ -117,6 +124,7 @@ public class Level {
 		height = json.getInt("height");
 		spawnX = json.getInt("spawnX");
 		spawnY = json.getInt("spawnY");
+		lives = json.getInt("lives");
 		tileIds = new int[width][height];
 		
 		JsonValue rows = json.get("tileIds");

@@ -109,6 +109,18 @@ public class LevelEditorScreen extends Screen {
 		}else if(Gdx.input.isKeyJustPressed(Keys.S)) {
 			spawnX = (int) entX;
 			spawnY = (int) entY;
+		}else if(Gdx.input.isKeyJustPressed(Keys.R)) {
+			int nw = (int) entX;
+			int nh = (int) entY;
+			int[][] nt = new int[nw + 1][nh + 1];
+			for(int y = 0;y < nh;y++) {
+				for(int x = 0;x < nw;x++) {
+					nt[x][y] = tileIds[x][y];
+				}
+			}
+			tileIds = nt;
+			width = nw;
+			height = nh;
 		}
 		
 		if(Gdx.input.isButtonPressed(Buttons.RIGHT)) {
@@ -180,6 +192,7 @@ public class LevelEditorScreen extends Screen {
 		ret.addChild("height", new JsonValue(height));
 		ret.addChild("spawnX", new JsonValue(spawnX));
 		ret.addChild("spawnY", new JsonValue(spawnY));
+		ret.addChild("lives", new JsonValue(2));
 		
 		JsonValue rows = new JsonValue(ValueType.array);
 		for(int y = 0;y < height;y++) {

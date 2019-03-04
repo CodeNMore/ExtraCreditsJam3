@@ -105,11 +105,11 @@ public abstract class MovableEntity extends Entity {
 				if(e.equals(this))
 					continue;
 				// Still check if solid in case
-				if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+				if(e.isSolid() && e.getCollisionBounds().overlaps(getCollisionBounds())) {
 					retY = oldY;
-					vy = 0f;
-					if(cb.y >= oldY)
+					if(vy < 0f)
 						onGround = true;
+					vy = 0f;
 				}
 			}
 		}
@@ -166,7 +166,7 @@ public abstract class MovableEntity extends Entity {
 				if(e.equals(this))
 					continue;
 				// Still check if solid in case
-				if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+				if(e.isSolid() && e.getCollisionBounds().overlaps(getCollisionBounds())) {
 					if(canPushOthers && e instanceof PushableEntity) {
 						if(oldX < retX) {
 							// Right push

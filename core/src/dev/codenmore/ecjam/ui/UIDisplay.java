@@ -62,16 +62,16 @@ public class UIDisplay {
 				glyphLayout.setText(Assets.getFontMd(Color.WHITE), p.getAgeState().slogan);
 				Assets.getFontMd(Color.WHITE).draw(batch, p.getAgeState().slogan,
 						Game.WIDTH / 2 - glyphLayout.width / 2, YOFFSET + 34);
+				
+				// Life count
+				batch.draw(Assets.getRegion("heart"), 12, YOFFSET + 8, Tile.TILE_SIZE_HALF, Tile.TILE_SIZE_HALF);
+				Assets.getFontMd(Color.WHITE).draw(batch, "x" + p.getLives(), 52, YOFFSET + 34);
 			}
-			
-			// Life count
-			batch.draw(Assets.getRegion("heart"), 12, YOFFSET + 8, Tile.TILE_SIZE_HALF, Tile.TILE_SIZE_HALF);
-			Assets.getFontMd(Color.WHITE).draw(batch, "x5", 52, YOFFSET + 34);
 		}
 	}
 	
 	public void addMessage(String msg) {
-//		messages.addLast(msg);
+		messages.addLast(msg);
 		System.out.println(msg);
 	}
 	

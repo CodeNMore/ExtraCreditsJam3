@@ -27,7 +27,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void render () {
 		// Clear the screen
-		Gdx.gl.glClearColor(BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Tick and render

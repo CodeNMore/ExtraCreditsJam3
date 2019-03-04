@@ -61,6 +61,11 @@ public abstract class Entity {
 	public void render(SpriteBatch batch) {
 		if(texture != null)
 			batch.draw(texture, x, y, width, height);
+		
+//		batch.setColor(Color.RED);
+//		Rectangle cb = getCollisionBounds();
+//		batch.draw(Assets.getRegion("pixel"), cb.x, cb.y, cb.width, cb.height);
+//		batch.setColor(Color.WHITE);
 	}
 	
 	public boolean isSolid() {

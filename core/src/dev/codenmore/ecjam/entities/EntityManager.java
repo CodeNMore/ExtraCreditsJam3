@@ -9,7 +9,7 @@ import dev.codenmore.ecjam.level.Level;
 public class EntityManager {
 	
 	private Level level;
-	private Array<Entity> entities, toAdd, toRemove;
+	private Array<Entity> entities, toAdd, toRemove, solidEntities;
 	private Player player;
 	
 	public EntityManager(Level level) {
@@ -17,12 +17,15 @@ public class EntityManager {
 		entities = new Array<Entity>();
 		toAdd = new Array<Entity>();
 		toRemove = new Array<Entity>();
+		solidEntities = new Array<Entity>();
 	}
 	
 	public void tick(float delta) {
 		for(Entity e : toAdd) {
 			if(e instanceof Player)
 				player = (Player) e;
+			if(e.isSolid())
+				solidEntities.add(e);
 			entities.add(e);
 		}
 		toAdd.clear();
@@ -34,6 +37,8 @@ public class EntityManager {
 		for(Entity e : toRemove) {
 			if(player.equals(e))
 				player = null;
+			if(solidEntities.contains(e, true))
+				solidEntities.removeValue(e, true);	
 			entities.removeValue(e, true);
 		}
 		toRemove.clear();
@@ -55,13 +60,7 @@ public class EntityManager {
 	}
 	
 	public Array<Entity> getSolidEntities(){
-		Array<Entity> ret = new Array<Entity>();
-		for(int i = 0;i < entities.size;i++) {
-			Entity e = entities.get(i);
-			if(e.isSolid())
-				ret.add(e);
-		}
-		return ret;
+		return solidEntities;
 	}
 	
 	public Player getPlayer() {

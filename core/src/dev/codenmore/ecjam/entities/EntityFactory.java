@@ -47,6 +47,24 @@ public class EntityFactory {
 			public Entity make(JsonValue json) {
 				return new Box(json);
 			}});
+		registerEntity("Door", new EntityMaker() {
+			@Override
+			public Entity makeEditor(float x, float y) {
+				return new Door(x, y);
+			}
+			@Override
+			public Entity make(JsonValue json) {
+				return new Door(json);
+			}});
+		registerEntity("Finish", new EntityMaker() {
+			@Override
+			public Entity makeEditor(float x, float y) {
+				return new Finish(x, y);
+			}
+			@Override
+			public Entity make(JsonValue json) {
+				return new Finish(json);
+			}});
 	}
 	
 	public static Entity makeEntity(String name, JsonValue json) {

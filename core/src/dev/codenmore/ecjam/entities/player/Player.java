@@ -15,11 +15,13 @@ public class Player extends MovableEntity {
 	
 	private AgeState ageState;
 	private int evolutionAvailable = -1;
+	private int lives;
 	private boolean jumpAllow = true;
 
-	public Player(float x, float y) {
+	public Player(float x, float y, int lives) {
 		super("Player", x, y, 64, 64);
 		solid = true;
+		this.lives = lives;
 		
 		updateState(AgeState.baby);
 	}
@@ -28,6 +30,9 @@ public class Player extends MovableEntity {
 	public void tick(float delta) {
 		// Process controls
 		updateControls(delta);
+		
+		if(Gdx.input.isKeyPressed(Keys.G))
+			vy = 200;
 		
 		// Apply gravity
 		processMovements(delta);
@@ -55,6 +60,9 @@ public class Player extends MovableEntity {
 		if((evolutionAvailable != 0 && Gdx.input.isKeyJustPressed(Keys.E) && canGoToNextAgeState()) || ns != null) {
 			// Check which state to transition to
 			ageState = (ns != null ? ns : getNextAgeState());
+			if(ns == null && ageState == AgeState.baby) {
+				lives--;
+			}
 			// Set our new speed
 			speed = ageState.speed;
 			// Set new collisions
@@ -89,7 +97,7 @@ public class Player extends MovableEntity {
 			Entity e = ents.get(i);
 			if(e.equals(this))
 				continue;
-			if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+			if(e.isSolid() && e.getCollisionBounds().overlaps(getCollisionBounds())) {
 				se = false;
 				break;
 			}
@@ -132,6 +140,10 @@ public class Player extends MovableEntity {
 
 	public void setJumpAllow(boolean jumpAllow) {
 		this.jumpAllow = jumpAllow;
+	}
+	
+	public int getLives() {
+		return lives;
 	}
 
 }
