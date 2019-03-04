@@ -4,65 +4,72 @@ size: 256,16
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+heart
+  rotate: false
+  xy: 144, 6
+  size: 11, 10
+  orig: 11, 10
+  offset: 0, 0
+  index: -1
 pixel
   rotate: false
-  xy: 64, 0
+  xy: 48, 0
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 player/adult_left
   rotate: false
-  xy: 64, 1
+  xy: 48, 1
   size: 16, 15
   orig: 16, 15
   offset: 0, 0
   index: -1
 player/adult_right
   rotate: false
-  xy: 80, 1
+  xy: 64, 1
   size: 16, 15
   orig: 16, 15
   offset: 0, 0
   index: -1
 player/baby_left
   rotate: false
-  xy: 140, 5
+  xy: 124, 5
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
   index: -1
 player/baby_right
   rotate: false
-  xy: 150, 5
+  xy: 134, 5
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
   index: -1
 player/old_left
   rotate: false
-  xy: 120, 2
+  xy: 104, 2
   size: 10, 14
   orig: 10, 14
   offset: 0, 0
   index: -1
 player/old_right
   rotate: false
-  xy: 130, 2
+  xy: 114, 2
   size: 10, 14
   orig: 10, 14
   offset: 0, 0
   index: -1
 player/teen_left
   rotate: false
-  xy: 96, 2
+  xy: 80, 2
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 player/teen_right
   rotate: false
-  xy: 108, 2
+  xy: 92, 2
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
@@ -81,16 +88,9 @@ tile/1
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile/2
+tile/1_edge
   rotate: false
   xy: 32, 0
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-tile/3
-  rotate: false
-  xy: 48, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

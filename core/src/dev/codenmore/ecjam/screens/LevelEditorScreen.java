@@ -37,6 +37,7 @@ public class LevelEditorScreen extends Screen {
 	
 	private int curTileId = 0;
 	private float entX, entY;
+	private int spawnX, spawnY;
 	
 	public LevelEditorScreen() {
 		id = Integer.parseInt(JOptionPane.showInputDialog("Level ID to load or create:"));
@@ -104,6 +105,9 @@ public class LevelEditorScreen extends Screen {
 					break;
 				}
 			}
+		}else if(Gdx.input.isKeyJustPressed(Keys.S)) {
+			spawnX = (int) entX;
+			spawnY = (int) entY;
 		}
 		
 		if(Gdx.input.isButtonPressed(Buttons.RIGHT)) {
@@ -157,7 +161,9 @@ public class LevelEditorScreen extends Screen {
 		batch.setColor(Color.RED);
 		batch.draw(Assets.getRegion("pixel"), entX * rtsize + rtsize / 2, entY * rtsize + rtsize / 2, 
 				rtsize / 3, rtsize / 3);
-		
+		batch.setColor(Color.YELLOW);
+		batch.draw(Assets.getRegion("pixel"), spawnX * rtsize + 1, spawnY * rtsize + 1, 
+				rtsize / 4, rtsize / 4);
 		batch.setColor(Color.WHITE);
 		
 		batch.end();
@@ -168,6 +174,8 @@ public class LevelEditorScreen extends Screen {
 		ret.addChild("id", new JsonValue(id));
 		ret.addChild("width", new JsonValue(width));
 		ret.addChild("height", new JsonValue(height));
+		ret.addChild("spawnX", new JsonValue(spawnX));
+		ret.addChild("spawnY", new JsonValue(spawnY));
 		
 		JsonValue rows = new JsonValue(ValueType.array);
 		for(int y = 0;y < height;y++) {
@@ -191,6 +199,8 @@ public class LevelEditorScreen extends Screen {
 		id = json.getInt("id");
 		width = json.getInt("width");
 		height = json.getInt("height");
+		spawnX = json.getInt("spawnX");
+		spawnY = json.getInt("spawnY");
 		tileIds = new int[width][height];
 		
 		JsonValue rows = json.get("tileIds");

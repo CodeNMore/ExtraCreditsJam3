@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import dev.codenmore.ecjam.assets.Assets;
+import dev.codenmore.ecjam.level.Level;
 
 public class Tile {
 	
@@ -16,7 +17,7 @@ public class Tile {
 	}
 	
 	// Globals
-	public static final float TILE_SIZE = 64f;
+	public static final float TILE_SIZE = 64f, TILE_SIZE_HALF = TILE_SIZE / 2f;
 	
 	private final int id;
 	private final TileSlope slope;
@@ -30,8 +31,8 @@ public class Tile {
 	
 	public void tick(float delta) {}
 	
-	public void render(SpriteBatch batch, float x, float y) {
-		render(batch, x, y, TILE_SIZE, TILE_SIZE);
+	public void render(SpriteBatch batch, int tx, int ty, Level level) {
+		render(batch, tx * TILE_SIZE, ty * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 	}
 	
 	public void render(SpriteBatch batch, float x, float y, float width, float height) {

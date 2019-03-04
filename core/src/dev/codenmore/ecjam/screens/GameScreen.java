@@ -19,7 +19,11 @@ public class GameScreen extends Screen {
 	
 	@Override
 	public void tick(float delta) {
-		level.tick(delta);
+		if(!ui.isShowingMessage()) {
+			level.tick(delta);
+		}
+		
+		// Always tick UI
 		ui.tick(delta);
 		
 		// Temporary: check for level editor entry
@@ -37,6 +41,7 @@ public class GameScreen extends Screen {
 		// Begin our batch
 		batch.begin();
 		
+		// UI and messages
 		ui.render(batch);
 		
 		// End batch
@@ -63,6 +68,14 @@ public class GameScreen extends Screen {
 	@Override
 	public void resume() {
 		
+	}
+	
+	public Level getLevel() {
+		return level;
+	}
+	
+	public UIDisplay getUIDisplay() {
+		return ui;
 	}
 	
 }

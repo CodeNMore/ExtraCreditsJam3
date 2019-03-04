@@ -13,9 +13,7 @@ public class TileFactory {
 		tiles = new Tile[32];
 		
 		registerTile(new Tile(0, TileSlope.NONE));
-		registerTile(new Tile(1, TileSlope.SOLID));
-		registerTile(new Tile(2, TileSlope.LEFT));
-		registerTile(new Tile(3, TileSlope.RIGHT));
+		registerTile(new EdgeTile(1, TileSlope.SOLID));
 	}
 	
 	public static Tile getTile(int id) {

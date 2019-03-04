@@ -17,9 +17,7 @@ public class TextButton extends TextureButton {
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
-		Assets.getFont().getData().setScale(1f);
-		Assets.getFont().setColor(Color.RED);
-		Assets.getFont().draw(batch, title, bounds.x, bounds.y + 15);
+		Assets.getFontSm(Color.RED).draw(batch, title, bounds.x, bounds.y + 15);
 	}
 
 }

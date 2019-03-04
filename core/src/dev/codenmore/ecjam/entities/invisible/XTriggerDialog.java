@@ -24,8 +24,10 @@ public class XTriggerDialog extends Entity {
 	public void tick(float delta) {
 		Player p = manager.getPlayer();
 		if(p != null) {
-			if(p.getX() >= x) {
-				System.out.println("Message: " + msg);
+			if(p.getX() + p.getWidth() / 6 >= x) {
+				String[] msgs = msg.split("~");
+				for(int i = 0;i < msgs.length;i++)
+					manager.getLevel().getGameScreen().getUIDisplay().addMessage(msgs[i]);
 				manager.removeEntity(this);
 			}
 		}

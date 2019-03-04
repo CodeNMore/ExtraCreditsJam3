@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,7 +11,7 @@ public class Assets {
 	
 	private static AssetManager manager = null;
 	private static ObjectMap<String, TextureRegion> regions;
-	private static BitmapFont font;
+	private static BitmapFont font = null;
 	
 	private Assets() {}
 	
@@ -19,10 +20,10 @@ public class Assets {
 			return;
 		
 		regions = new ObjectMap<String, TextureRegion>();
-		font = new BitmapFont();
 		
 		manager = new AssetManager();
 		manager.load("textures/pack.atlas", TextureAtlas.class);
+		manager.load("fatpixel.fnt", BitmapFont.class);
 	}
 	
 	public static TextureRegion getRegion(String name) {
@@ -32,13 +33,36 @@ public class Assets {
 		return regions.get(name);
 	}
 	
-	public static BitmapFont getFont() {
+	public static BitmapFont getFontMicro(Color c) {
+		font.getData().setScale(0.36f);
+		font.setColor(c);
+		return font;
+	}
+	
+	public static BitmapFont getFontSm(Color c) {
+		font.getData().setScale(0.4f);
+		font.setColor(c);
+		return font;
+	}
+	
+	public static BitmapFont getFontMd(Color c) {
+		font.getData().setScale(0.75f);
+		font.setColor(c);
+		return font;
+	}
+	
+	public static BitmapFont getFontLg(Color c) {
+		font.getData().setScale(1.0f);
+		font.setColor(c);
 		return font;
 	}
 	
 	public static boolean step() {
-		if(manager.update()) 
+		if(manager.update()) {
+			if(font == null)
+				font = manager.get("fatpixel.fnt", BitmapFont.class);
 			return true;
+		}
 		return false;
 	}
 	

@@ -29,8 +29,10 @@ public class Level {
 	
 	private GameScreen gameScreen;
 	private int id;
+	private int spawnX, spawnY;
 	private int width, height;
 	private int[][] tileIds;
+	private boolean needsInstantCenter = true;
 	
 	private JsonValue originalJson;
 	private EntityManager entityManager;
@@ -45,14 +47,21 @@ public class Level {
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		entityManager = new EntityManager(this);
-		entityManager.addEntity(new Player(128, 128));
 		
 		originalJson = new JsonReader().parse(Gdx.files.internal("levels/" + levelId + ".txt"));
 		fromJson(originalJson);
+		
+		entityManager.addEntity(new Player(spawnX * Tile.TILE_SIZE, spawnY * Tile.TILE_SIZE));
 	}
 	
 	public void tick(float delta) {
 		entityManager.tick(delta);
+		
+		// Instant-center
+		if(needsInstantCenter) {
+			centerOn(entityManager.getPlayer().getRenderBounds(), 50f);
+			needsInstantCenter = false;
+		}
 	}
 	
 	public void render() {
@@ -62,7 +71,7 @@ public class Level {
 		
 		for(int y = 0;y < height;y++) {
 			for(int x = 0;x < width;x++) {
-				TileFactory.getTile(tileIds[x][y]).render(batch, x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+				TileFactory.getTile(tileIds[x][y]).render(batch, x, y, this);
 			}
 		}
 		
@@ -96,6 +105,8 @@ public class Level {
 	}
 	
 	public Tile getTile(int x, int y) {
+		if(x < 0 || y < 0 || x >= width || y >= height)
+			return null;
 		return TileFactory.getTile(tileIds[x][y]);
 	}
 	
@@ -103,6 +114,8 @@ public class Level {
 		id = json.getInt("id");
 		width = json.getInt("width");
 		height = json.getInt("height");
+		spawnX = json.getInt("spawnX");
+		spawnY = json.getInt("spawnY");
 		tileIds = new int[width][height];
 		
 		JsonValue rows = json.get("tileIds");

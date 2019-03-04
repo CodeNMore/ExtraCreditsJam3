@@ -2,6 +2,7 @@ package dev.codenmore.ecjam;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 import dev.codenmore.ecjam.assets.Assets;
@@ -13,6 +14,7 @@ public class Game extends ApplicationAdapter {
 	// Globals
 	public static final String TITLE = "Life Recycle";
 	public static final float WIDTH = 800, HEIGHT = 600;
+	public static final Color BG_COLOR = new Color(0.090196f, 0.098039f, 0.184313f, 1f);
 	
 	@Override
 	public void create () {
@@ -25,7 +27,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void render () {
 		// Clear the screen
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Tick and render

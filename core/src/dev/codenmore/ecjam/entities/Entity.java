@@ -15,6 +15,7 @@ public abstract class Entity {
 	protected String name;
 	protected float x, y;
 	protected float width, height;
+	protected boolean solid = false;
 	protected Rectangle collisionOffsets;
 	private Rectangle bounds;
 	

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import dev.codenmore.ecjam.entities.invisible.XControlTrigger;
 import dev.codenmore.ecjam.entities.invisible.XTriggerDialog;
 
 public class EntityFactory {
@@ -26,6 +27,16 @@ public class EntityFactory {
 			@Override
 			public Entity make(JsonValue json) {
 				return new XTriggerDialog(json);
+			}});
+		registerEntity("XCntrlTrig", new EntityMaker() {
+			@Override
+			public Entity makeEditor(float x, float y) {
+				return new XControlTrigger("XCntrlTrig", x, 
+						promptStr("Commands 'cntrl:true;cntrl:false':"));
+			}
+			@Override
+			public Entity make(JsonValue json) {
+				return new XControlTrigger(json);
 			}});
 	}
 	

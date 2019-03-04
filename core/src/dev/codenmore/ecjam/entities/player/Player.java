@@ -2,20 +2,28 @@ package dev.codenmore.ecjam.entities.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 
 import dev.codenmore.ecjam.assets.Assets;
 import dev.codenmore.ecjam.entities.MovableEntity;
+import dev.codenmore.ecjam.entities.particles.Particle;
 
 public class Player extends MovableEntity {
 	
 	private AgeState ageState;
+	private int evolutionAvailable = -1;
+	private boolean jumpAllow = true;
 
 	public Player(float x, float y) {
 		super("Player", x, y, 64, 64);
+		solid = true;
+		
 		ageState = AgeState.baby;
 		speed = ageState.speed;
 		collisionOffsets.set(ageState.collisionOffsets);
+		
+		updateState(AgeState.baby);
 	}
 	
 	@Override
@@ -27,7 +35,7 @@ public class Player extends MovableEntity {
 		processMovements(delta);
 		
 		// Update state information
-		updateState();
+		updateState(null);
 		
 		// Center on us
 		getLevel().centerOn(getRenderBounds(), delta);
@@ -40,32 +48,39 @@ public class Player extends MovableEntity {
 		else if(Gdx.input.isKeyPressed(Keys.D))
 			vx = speed;
 		
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+		if(jumpAllow && Gdx.input.isKeyJustPressed(Keys.SPACE))
 			jump(ageState.jumpStrength);
 	}
 	
-	private void updateState() {
+	private void updateState(AgeState ns) {
 		// Check if changing state
-		if(Gdx.input.isKeyJustPressed(Keys.E) && canGoToNextAgeState()) {
+		if((evolutionAvailable != 0 && Gdx.input.isKeyJustPressed(Keys.E) && canGoToNextAgeState()) || ns != null) {
 			// Check which state to transition to
-			ageState = getNextAgeState();
+			ageState = (ns != null ? ns : getNextAgeState());
 			// Set our new speed
 			speed = ageState.speed;
 			// Set new collisions
 			collisionOffsets.set(ageState.collisionOffsets);
+			// Set proper sizes
+			width = ageState.width;
+			height = ageState.height;
+			if(evolutionAvailable > 0)
+				evolutionAvailable--; //negative stays infinite
+			// BOOM! Particles!
+			if(ns == null) {
+				Particle.spawnParticles(manager, x + width / 2, y + height / 2, 25, 25, 
+						1, 6, 250, 250, 
+						-50, 50, -30, 200, 
+						0.5f, 2.5f, new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 0.5f));
+			}
 		}
-		
-		// Set proper texture
+		// Always set texture
 		texture = Assets.getRegion("player/" + ageState.toString() + "_" + (vx < 0 ? "left" : "right"));
-		width = ageState.width;
-		height = ageState.height;
 	}
 	
 	private boolean canGoToNextAgeState() {
 		if(!isOnGround() || isMoving()) return false;
-		AgeState ns = getNextAgeState();
-		Rectangle b = new Rectangle(x, y, ns.width, ns.height);
-		return !getLevel().anyTileSolidWithin(b);
+		return !getLevel().anyTileSolidWithin(getCollisionBounds());
 	}
 	
 	private AgeState getNextAgeState() {
@@ -83,6 +98,22 @@ public class Player extends MovableEntity {
 	
 	public AgeState getAgeState() {
 		return ageState;
+	}
+
+	public int getEvolutionAvailable() {
+		return evolutionAvailable;
+	}
+
+	public void setEvolutionAvailable(int evolutionAvailable) {
+		this.evolutionAvailable = evolutionAvailable;
+	}
+
+	public boolean isJumpAllow() {
+		return jumpAllow;
+	}
+
+	public void setJumpAllow(boolean jumpAllow) {
+		this.jumpAllow = jumpAllow;
 	}
 
 }
