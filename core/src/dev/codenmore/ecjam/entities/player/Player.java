@@ -48,8 +48,8 @@ public class Player extends MovableEntity {
 		else if(Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT))
 			vx = speed;
 		
-		if(jumpAllow && Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP))
-			jump(ageState.jumpStrength);
+		if(jumpAllow && (Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP)))
+			jump(ageState.jumpStrength, true);
 	}
 	
 	private void updateState(AgeState ns) {
@@ -59,6 +59,7 @@ public class Player extends MovableEntity {
 			ageState = (ns != null ? ns : getNextAgeState());
 			if(ns == null && ageState == AgeState.baby) {
 				lives--;
+				Assets.playSound("die");
 				if(lives <= 0)
 					manager.getLevel().die();
 			}
@@ -79,6 +80,7 @@ public class Player extends MovableEntity {
 						1, 6, 250, 250, 
 						-50, 50, -30, 200, 
 						0.5f, 2.5f, new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 0.5f));
+				Assets.playSound("evolve");
 			}
 		}
 		// Always set texture

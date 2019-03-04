@@ -25,8 +25,10 @@ public class EndScreen extends Screen {
 	
 	@Override
 	public void tick(float delta) {
-		if(Gdx.input.isKeyPressed(Keys.ENTER))
+		if(Gdx.input.isKeyPressed(Keys.ENTER)) {
+			Assets.playSound("unlock");
 			ScreenManager.disposeScreen(); // Back to level select
+		}
 	}
 	
 	@Override

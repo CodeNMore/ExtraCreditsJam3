@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 
+import dev.codenmore.ecjam.assets.Assets;
 import dev.codenmore.ecjam.level.Level;
 import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.level.tile.Tile.TileSlope;
@@ -170,10 +171,10 @@ public abstract class MovableEntity extends Entity {
 					if(canPushOthers && e instanceof PushableEntity) {
 						if(oldX < retX) {
 							// Right push
-							((PushableEntity) e).push(100);
+							((PushableEntity) e).push(150);
 						}else if(retX < oldX) {
 							// Left push
-							((PushableEntity) e).push(-100);
+							((PushableEntity) e).push(-150);
 						}
 					}
 					// Still collide
@@ -214,9 +215,11 @@ public abstract class MovableEntity extends Entity {
 		return moving;
 	}
 	
-	protected void jump(int strength) {
+	protected void jump(int strength, boolean sound) {
 		if(!isOnGround()) return;
 		vy += Level.GRAVITY * strength;
+		if(sound)
+			Assets.playSound("jump");
 	}
 	
 	protected void push(int strength) {

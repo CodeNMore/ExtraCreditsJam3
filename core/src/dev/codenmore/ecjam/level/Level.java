@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import dev.codenmore.ecjam.Game;
+import dev.codenmore.ecjam.assets.Assets;
 import dev.codenmore.ecjam.assets.Saver;
 import dev.codenmore.ecjam.entities.EntityFactory;
 import dev.codenmore.ecjam.entities.EntityManager;
@@ -93,6 +94,7 @@ public class Level {
 	
 	public void complete() {
 		Saver.completedLevel(id);
+		Assets.playSound("unlocking");
 		ScreenManager.swapScreen(new EndScreen(false));
 	}
 	

@@ -56,6 +56,7 @@ public class Door extends Entity {
 							1, 6, 150, 150, 
 							-50, 50, -30, 250, 
 							1f, 3f, new Color(MathUtils.random(), MathUtils.random(), 0.1f, 0.8f));
+					Assets.playSound("unlock");
 					manager.removeEntity(this);
 				}
 			}else {

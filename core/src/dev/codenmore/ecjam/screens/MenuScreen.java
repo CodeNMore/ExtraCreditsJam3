@@ -21,8 +21,10 @@ public class MenuScreen extends Screen {
 	
 	@Override
 	public void tick(float delta) {
-		if(Gdx.input.isKeyPressed(Keys.ANY_KEY))
+		if(Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
+			Assets.playSound("unlock");
 			ScreenManager.swapScreen(new LevelSelectScreen());
+		}
 	}
 	
 	@Override

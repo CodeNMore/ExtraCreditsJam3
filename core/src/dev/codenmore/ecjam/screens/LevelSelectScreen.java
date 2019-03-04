@@ -81,6 +81,7 @@ public class LevelSelectScreen extends Screen {
 				@Override
 				public void onClick() {
 					if(levelUnlocked(lvlId)) {
+						Assets.playSound("unlock");
 						ScreenManager.pushScreen(new GameScreen(lvlId));
 					}
 				}}));

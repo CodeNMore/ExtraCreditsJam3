@@ -26,8 +26,12 @@ public class GameScreen extends Screen {
 		// Always tick UI
 		ui.tick(delta);
 		
-		// Temporary: check for level editor entry
+		// Check for escape
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE))
+			ScreenManager.disposeScreen();
+		
+		// Temporary: check for level editor entry
+		if(Gdx.input.isKeyJustPressed(Keys.P))
 			ScreenManager.pushScreen(new LevelEditorScreen());
 	}
 	

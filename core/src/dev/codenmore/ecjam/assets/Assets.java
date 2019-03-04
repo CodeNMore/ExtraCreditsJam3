@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,6 +25,12 @@ public class Assets {
 		manager = new AssetManager();
 		manager.load("textures/pack.atlas", TextureAtlas.class);
 		manager.load("fatpixel.fnt", BitmapFont.class);
+		
+		manager.load("audio/die.wav", Sound.class);
+		manager.load("audio/evolve.wav", Sound.class);
+		manager.load("audio/jump.wav", Sound.class);
+		manager.load("audio/unlock.wav", Sound.class);
+		manager.load("audio/unlocking.wav", Sound.class);
 	}
 	
 	public static TextureRegion getRegion(String name) {
@@ -31,6 +38,10 @@ public class Assets {
 			return regions.get(name);
 		regions.put(name, manager.get("textures/pack.atlas", TextureAtlas.class).findRegion(name));
 		return regions.get(name);
+	}
+	
+	public static void playSound(String name) {
+		manager.get("audio/" + name + ".wav", Sound.class).play();
 	}
 	
 	public static BitmapFont getFontMicro(Color c) {
