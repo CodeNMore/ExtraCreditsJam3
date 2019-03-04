@@ -20,7 +20,7 @@ public class LoadingScreen extends Screen {
 			// Init entities
 			EntityFactory.init();
 			// Done loading
-			ScreenManager.swapScreen(new LevelSelectScreen());
+			ScreenManager.swapScreen(new MenuScreen());
 		}
 	}
 	

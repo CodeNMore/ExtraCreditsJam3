@@ -57,6 +57,12 @@ public class Assets {
 		return font;
 	}
 	
+	public static BitmapFont getFontHuge(Color c) {
+		font.getData().setScale(2.0f);
+		font.setColor(c);
+		return font;
+	}
+	
 	public static boolean step() {
 		if(manager.update()) {
 			if(font == null)

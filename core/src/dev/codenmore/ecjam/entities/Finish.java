@@ -26,7 +26,7 @@ public class Finish extends Entity {
 	public void tick(float delta) {
 		Player p = manager.getPlayer();
 		if(p.getCollisionBounds().overlaps(getCollisionBounds())) {
-			System.out.println("Donezone");
+			manager.getLevel().complete();
 		}
 		
 		rot += 20 * delta;

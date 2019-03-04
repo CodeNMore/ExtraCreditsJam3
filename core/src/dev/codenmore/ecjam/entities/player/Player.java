@@ -59,6 +59,8 @@ public class Player extends MovableEntity {
 			ageState = (ns != null ? ns : getNextAgeState());
 			if(ns == null && ageState == AgeState.baby) {
 				lives--;
+				if(lives <= 0)
+					manager.getLevel().die();
 			}
 			// Set our new speed
 			speed = ageState.speed;

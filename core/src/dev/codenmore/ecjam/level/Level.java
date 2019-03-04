@@ -10,12 +10,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import dev.codenmore.ecjam.Game;
+import dev.codenmore.ecjam.assets.Saver;
 import dev.codenmore.ecjam.entities.EntityFactory;
 import dev.codenmore.ecjam.entities.EntityManager;
 import dev.codenmore.ecjam.entities.player.Player;
 import dev.codenmore.ecjam.level.tile.Tile;
 import dev.codenmore.ecjam.level.tile.TileFactory;
+import dev.codenmore.ecjam.screens.EndScreen;
 import dev.codenmore.ecjam.screens.GameScreen;
+import dev.codenmore.ecjam.screens.ScreenManager;
 
 public class Level {
 	
@@ -86,6 +89,15 @@ public class Level {
 		entityManager.render(batch);
 		
 		batch.end();
+	}
+	
+	public void complete() {
+		Saver.completedLevel(id);
+		ScreenManager.swapScreen(new EndScreen(false));
+	}
+	
+	public void die() {
+		ScreenManager.swapScreen(new EndScreen(true));
 	}
 	
 	public void centerOn(Rectangle bounds, float delta) {

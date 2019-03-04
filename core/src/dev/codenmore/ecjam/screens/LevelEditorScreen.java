@@ -59,8 +59,8 @@ public class LevelEditorScreen extends Screen {
 		Array<String> allEntityNames = EntityFactory.getAllEntityNames();
 		for(int i = 0;i < allEntityNames.size;i++) {
 			final String name = allEntityNames.get(i);
-			buttons.add(new TextButton(name, rtwidth + 40, 
-					25 + i * riconsize, riconsize*4, riconsize/1.8f, new ClickHandler() {
+			buttons.add(new TextButton(name, Assets.getRegion("pixel"), rtwidth + 40, 
+					25 + i * riconsize, riconsize*4, riconsize/1.8f, false, Color.RED, new ClickHandler() {
 				@Override
 				public void onClick() {
 					entities.add(EntityFactory.makeEntityEditor(name, entX * Tile.TILE_SIZE, entY * Tile.TILE_SIZE));
