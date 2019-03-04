@@ -170,10 +170,10 @@ public abstract class MovableEntity extends Entity {
 					if(canPushOthers && e instanceof PushableEntity) {
 						if(oldX < retX) {
 							// Right push
-							((PushableEntity) e).push(250);
+							((PushableEntity) e).push(100);
 						}else if(retX < oldX) {
 							// Left push
-							((PushableEntity) e).push(-250);
+							((PushableEntity) e).push(-100);
 						}
 					}
 					// Still collide

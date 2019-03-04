@@ -53,7 +53,7 @@ public class Door extends Entity {
 				unlockTimer += delta;
 				if(unlockTimer >= UNLOCK_TIME) {
 					Particle.spawnParticles(manager, x + width / 2, y + height / 2, 25, 25, 
-							1, 6, 50, 100, 
+							1, 6, 150, 150, 
 							-50, 50, -30, 250, 
 							1f, 3f, new Color(MathUtils.random(), MathUtils.random(), 0.1f, 0.8f));
 					manager.removeEntity(this);

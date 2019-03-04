@@ -39,7 +39,6 @@ public class UIDisplay {
 			}
 		}else {
 			// Normal UI
-			
 		}
 	}
 	

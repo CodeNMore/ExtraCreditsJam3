@@ -54,13 +54,14 @@ public class Particle extends MovableEntity implements Disposable {
 			float minLife, float maxLife, Color c) {
 		// Generate this many particles
 		for(int i = 0;i < MathUtils.random(minCount, maxCount);i++) {
-			float xp, yp, size;
+			float xp, yp, wid, hei;
 			int limit = 0;
 			do {
 				// Make sure particle isn't in solid tile
 				xp = MathUtils.random(x - spawnWidth, x + spawnWidth);
 				yp = MathUtils.random(y - spawnHeight, y + spawnHeight);
-				size = MathUtils.random(minPartSize, maxPartSize);
+				wid = MathUtils.random(minPartSize, maxPartSize);
+				hei = MathUtils.random(minPartSize, maxPartSize);
 				limit++;
 			}while(em.getLevel().getTile((int) (xp / Tile.TILE_SIZE), (int) (yp / Tile.TILE_SIZE)).isSolid() && limit < 5);
 			
@@ -71,7 +72,7 @@ public class Particle extends MovableEntity implements Disposable {
 			float vx = MathUtils.random(minVx, maxVx);
 			float vy = MathUtils.random(minVy, maxVy);
 			float life = MathUtils.random(minLife, maxLife);
-			em.addEntity(new Particle(xp, yp, size, size, vx, vy, life, c));
+			em.addEntity(new Particle(xp, yp, wid, hei, vx, vy, life, c));
 		}
 	}
 

@@ -63,7 +63,7 @@ public class Level {
 		
 		// Instant-center
 		if(needsInstantCenter) {
-			centerOn(entityManager.getPlayer().getRenderBounds(), 50f);
+			centerOn(entityManager.getPlayer().getRenderBounds(), (Float.MAX_VALUE));
 			needsInstantCenter = false;
 		}
 	}
