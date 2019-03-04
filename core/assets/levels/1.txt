@@ -73,7 +73,7 @@
 		"height": 0.0,
 		"name": "XCntrlTrig",
 		"solid": false,
-		"cmd": "jump:false;evolve:-1;"
+		"cmd": "jump:false;evolve:0;"
 	},
 	{
 		"x": 192.0,
@@ -91,10 +91,10 @@
 		"height": 0.0,
 		"name": "XCntrlTrig",
 		"solid": false,
-		"cmd": "evolve:-1;"
+		"cmd": "evolve:1;"
 	},
 	{
-		"x": 400.0,
+		"x": 576.0,
 		"y": 64.0,
 		"width": 64.0,
 		"height": 64.0,
@@ -102,12 +102,38 @@
 		"solid": true
 	},
 	{
-		"x": 400.0,
+		"x": 576.0,
 		"y": 128.0,
 		"width": 64.0,
 		"height": 64.0,
 		"name": "Box",
 		"solid": true
+	},
+	{
+		"x": 576.0,
+		"y": 192.0,
+		"width": 64.0,
+		"height": 64.0,
+		"name": "Box",
+		"solid": true
+	},
+	{
+		"x": 512.0,
+		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
+		"name": "XCntrlTrig",
+		"solid": false,
+		"cmd": "evolve:1;"
+	},
+	{
+		"x": 512.0,
+		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
+		"name": "XTriggerDialog",
+		"solid": false,
+		"msg": "Sometimes more strength is needed...~Press [E] to evolve again."
 	}
 ]
 }

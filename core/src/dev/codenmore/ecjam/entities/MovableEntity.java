@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.entities;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 
 import dev.codenmore.ecjam.level.Level;
@@ -42,7 +43,8 @@ public abstract class MovableEntity extends Entity {
 			for(int tx = startTx;tx <= endTx;tx++) {
 				for(int ty = oldTy;ty >= farTy;ty--) {
 					// For now only checking if solid
-					if(getLevel().getTile(tx, ty).getSlope() == TileSlope.SOLID) {
+					Tile t = getLevel().getTile(tx, ty);
+					if(t == null || t.getSlope() == TileSlope.SOLID) {
 						// Normal full-solid tile
 						float newRetY = ty * Tile.TILE_SIZE + Tile.TILE_SIZE;
 						if(newRetY > retY) {
@@ -86,7 +88,8 @@ public abstract class MovableEntity extends Entity {
 			for(int tx = (int) (cb.x / Tile.TILE_SIZE);tx <= (int) ((cb.x + cb.width - 1) / Tile.TILE_SIZE);tx++) {
 				for(int ty = oldTy;ty <= farTy;ty++) {
 					// For now only checking if solid
-					if(getLevel().getTile(tx, ty).isSolid()) {
+					Tile t = getLevel().getTile(tx, ty);
+					if(t == null || t.isSolid()) {
 						vy = 0f;
 						retY = ty * Tile.TILE_SIZE - cb.height;
 					}
@@ -96,12 +99,17 @@ public abstract class MovableEntity extends Entity {
 		
 		// Check entities collisions
 		if(solid) {
-			for(Entity e : manager.getSolidEntities()) {
+			Array<Entity> ents = manager.getSolidEntities();
+			for(int i = 0;i < ents.size;i++) {
+				Entity e = ents.get(i);
 				if(e.equals(this))
 					continue;
 				// Still check if solid in case
 				if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
 					retY = oldY;
+					vy = 0f;
+					if(cb.y >= oldY)
+						onGround = true;
 				}
 			}
 		}
@@ -124,7 +132,8 @@ public abstract class MovableEntity extends Entity {
 			for(int ty = (int) (cb.y / Tile.TILE_SIZE);ty <= (int) ((cb.y + cb.height - 1) / Tile.TILE_SIZE);ty++) {
 				for(int tx = oldTx;tx >= farTx;tx--) {
 					// For now only checking if solid
-					if(getLevel().getTile(tx, ty).getSlope() == TileSlope.SOLID) {
+					Tile t = getLevel().getTile(tx, ty);
+					if(t == null || t.getSlope() == TileSlope.SOLID) {
 						vx = 0f;
 						retX = tx * Tile.TILE_SIZE + Tile.TILE_SIZE;
 					}
@@ -140,7 +149,8 @@ public abstract class MovableEntity extends Entity {
 			for(int ty = (int) (cb.y / Tile.TILE_SIZE);ty <= (int) ((cb.y + cb.height - 1) / Tile.TILE_SIZE);ty++) {
 				for(int tx = oldTx;tx <= farTx;tx++) {
 					// For now only checking if solid
-					if(getLevel().getTile(tx, ty).getSlope() == TileSlope.SOLID) {
+					Tile t = getLevel().getTile(tx, ty);
+					if(t == null || t.getSlope() == TileSlope.SOLID) {
 						vx = 0f;
 						retX = tx * Tile.TILE_SIZE - cb.width;
 					}
@@ -150,7 +160,9 @@ public abstract class MovableEntity extends Entity {
 		
 		// Check entities collisions
 		if(solid) {
-			for(Entity e : manager.getSolidEntities()) {
+			Array<Entity> ents = manager.getSolidEntities();
+			for(int i = 0;i < ents.size;i++) {
+				Entity e = ents.get(i);
 				if(e.equals(this))
 					continue;
 				// Still check if solid in case

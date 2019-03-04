@@ -10,6 +10,7 @@ public class Box extends PushableEntity {
 	public Box(float x, float y) {
 		super("Box", x, y, Tile.TILE_SIZE, Tile.TILE_SIZE);
 		texture = Assets.getRegion("box");
+		collisionOffsets.set(0, 0, 0, 0);
 	}
 
 	public Box(JsonValue json) {

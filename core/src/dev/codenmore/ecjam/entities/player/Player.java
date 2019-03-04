@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 import dev.codenmore.ecjam.assets.Assets;
 import dev.codenmore.ecjam.entities.Entity;
@@ -83,7 +84,9 @@ public class Player extends MovableEntity {
 		width = getNextAgeState().width;
 		height = getNextAgeState().height;
 		boolean se = true;
-		for(Entity e : manager.getSolidEntities()) {
+		Array<Entity> ents = manager.getSolidEntities();
+		for(int i = 0;i < ents.size;i++) {
+			Entity e = ents.get(i);
 			if(e.equals(this))
 				continue;
 			if(e.getCollisionBounds().overlaps(getCollisionBounds())) {

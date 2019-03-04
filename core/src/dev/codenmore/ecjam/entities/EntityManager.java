@@ -27,8 +27,8 @@ public class EntityManager {
 		}
 		toAdd.clear();
 		
-		for(Entity e : entities) {
-			e.tick(delta);
+		for(int i = 0;i < entities.size;i++) {
+			entities.get(i).tick(delta);
 		}
 		
 		for(Entity e : toRemove) {
@@ -40,7 +40,8 @@ public class EntityManager {
 	}
 	
 	public void render(SpriteBatch batch) {
-		for(Entity e : entities) {
+		for(int i = 0;i < entities.size;i++) {
+			Entity e = entities.get(i);
 			if(inFrustum(e))
 				e.render(batch);
 		}
@@ -55,9 +56,11 @@ public class EntityManager {
 	
 	public Array<Entity> getSolidEntities(){
 		Array<Entity> ret = new Array<Entity>();
-		for(int i = 0;i < entities.size;i++)
-			if(entities.get(i).isSolid())
-				ret.add(entities.get(i));
+		for(int i = 0;i < entities.size;i++) {
+			Entity e = entities.get(i);
+			if(e.isSolid())
+				ret.add(e);
+		}
 		return ret;
 	}
 	
