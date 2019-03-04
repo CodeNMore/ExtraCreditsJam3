@@ -72,7 +72,7 @@ public class UIDisplay {
 	
 	public void addMessage(String msg) {
 		messages.addLast(msg);
-		System.out.println(msg);
+//		System.out.println(msg);
 	}
 	
 	public boolean isShowingMessage() {

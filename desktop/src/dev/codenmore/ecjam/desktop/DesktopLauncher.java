@@ -21,9 +21,9 @@ public class DesktopLauncher {
 		Settings s = new Settings();
 		s.pot = true;
 		s.combineSubdirectories = true;
-		s.edgePadding = false;
-		s.paddingX = 0;
-		s.paddingY = 0;
+		s.edgePadding = true;
+		s.paddingX = 2;
+		s.paddingY = 2;
 		s.fast = false;
 		
 		// Change to core if no android project

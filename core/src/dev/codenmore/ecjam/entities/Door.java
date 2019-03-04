@@ -24,7 +24,7 @@ public class Door extends Entity {
 	private GlyphLayout glyphLayout;
 	private Animation<TextureRegion> anim;
 	private float animTimer;
-
+	
 	public Door(float x, float y) {
 		super("Door", x, y, Tile.TILE_SIZE, Tile.TILE_SIZE);
 		solid = true;
@@ -72,6 +72,7 @@ public class Door extends Entity {
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
+		
 		if(unlockTimer > 0f) {
 			String msg = MathUtils.round(UNLOCK_TIME - unlockTimer) + "s";
 			glyphLayout = new GlyphLayout(Assets.getFontSm(Color.WHITE), msg);

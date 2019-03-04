@@ -31,9 +31,6 @@ public class Player extends MovableEntity {
 		// Process controls
 		updateControls(delta);
 		
-		if(Gdx.input.isKeyPressed(Keys.G))
-			vy = 200;
-		
 		// Apply gravity
 		processMovements(delta);
 		
@@ -46,12 +43,12 @@ public class Player extends MovableEntity {
 	
 	private void updateControls(float delta) {
 		vx = 0f;
-		if(Gdx.input.isKeyPressed(Keys.A))
+		if(Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT))
 			vx = -speed;
-		else if(Gdx.input.isKeyPressed(Keys.D))
+		else if(Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT))
 			vx = speed;
 		
-		if(jumpAllow && Gdx.input.isKeyJustPressed(Keys.SPACE))
+		if(jumpAllow && Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP))
 			jump(ageState.jumpStrength);
 	}
 	
