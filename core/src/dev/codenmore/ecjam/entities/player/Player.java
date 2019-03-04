@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 import dev.codenmore.ecjam.assets.Assets;
+import dev.codenmore.ecjam.entities.Entity;
 import dev.codenmore.ecjam.entities.MovableEntity;
 import dev.codenmore.ecjam.entities.particles.Particle;
 
@@ -18,10 +19,6 @@ public class Player extends MovableEntity {
 	public Player(float x, float y) {
 		super("Player", x, y, 64, 64);
 		solid = true;
-		
-		ageState = AgeState.baby;
-		speed = ageState.speed;
-		collisionOffsets.set(ageState.collisionOffsets);
 		
 		updateState(AgeState.baby);
 	}
@@ -66,6 +63,8 @@ public class Player extends MovableEntity {
 			height = ageState.height;
 			if(evolutionAvailable > 0)
 				evolutionAvailable--; //negative stays infinite
+			// Can push?
+			canPushOthers = ageState.canPushOthers;
 			// BOOM! Particles!
 			if(ns == null) {
 				Particle.spawnParticles(manager, x + width / 2, y + height / 2, 25, 25, 
@@ -80,7 +79,23 @@ public class Player extends MovableEntity {
 	
 	private boolean canGoToNextAgeState() {
 		if(!isOnGround() || isMoving()) return false;
-		return !getLevel().anyTileSolidWithin(getCollisionBounds());
+		collisionOffsets = getNextAgeState().collisionOffsets;
+		width = getNextAgeState().width;
+		height = getNextAgeState().height;
+		boolean se = true;
+		for(Entity e : manager.getSolidEntities()) {
+			if(e.equals(this))
+				continue;
+			if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+				se = false;
+				break;
+			}
+		}
+		boolean ret = !getLevel().anyTileSolidWithin(getCollisionBounds()) && se;
+		collisionOffsets = ageState.collisionOffsets;
+		width = ageState.width;
+		height = ageState.height;
+		return ret;
 	}
 	
 	private AgeState getNextAgeState() {

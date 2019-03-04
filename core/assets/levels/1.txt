@@ -42,38 +42,72 @@
 	{
 		"x": 0.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XTriggerDialog",
+		"solid": false,
 		"msg": "Use [WASD] or [Arrow Keys] to move."
 	},
 	{
 		"x": 192.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XTriggerDialog",
+		"solid": false,
 		"msg": "Use [Space] to jump."
 	},
 	{
 		"x": 256.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XTriggerDialog",
+		"solid": false,
 		"msg": "Can't jump high enough?~Evolve to the next stage of life.~Press [E] while standing still.~Make sure you have enough room to evolve!"
 	},
 	{
 		"x": 0.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XCntrlTrig",
+		"solid": false,
 		"cmd": "jump:false;evolve:-1;"
 	},
 	{
 		"x": 192.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XCntrlTrig",
+		"solid": false,
 		"cmd": "jump:true;"
 	},
 	{
 		"x": 256.0,
 		"y": 0.0,
+		"width": 0.0,
+		"height": 0.0,
 		"name": "XCntrlTrig",
+		"solid": false,
 		"cmd": "evolve:-1;"
+	},
+	{
+		"x": 400.0,
+		"y": 64.0,
+		"width": 64.0,
+		"height": 64.0,
+		"name": "Box",
+		"solid": true
+	},
+	{
+		"x": 400.0,
+		"y": 128.0,
+		"width": 64.0,
+		"height": 64.0,
+		"name": "Box",
+		"solid": true
 	}
 ]
 }

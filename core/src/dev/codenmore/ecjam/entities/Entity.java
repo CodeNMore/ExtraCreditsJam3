@@ -15,7 +15,7 @@ public abstract class Entity {
 	protected String name;
 	protected float x, y;
 	protected float width, height;
-	protected boolean solid = false;
+	protected boolean solid, canPushOthers;
 	protected Rectangle collisionOffsets;
 	private Rectangle bounds;
 	
@@ -25,6 +25,8 @@ public abstract class Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		solid = false;
+		canPushOthers = false;
 		collisionOffsets = new Rectangle(0, 0, 0, 0);
 		bounds = new Rectangle(x, y, width, height);
 	}
@@ -39,20 +41,30 @@ public abstract class Entity {
 	protected void fromJson(JsonValue val) {
 		x = val.getFloat("x");
 		y = val.getFloat("y");
+		width = val.getFloat("width");
+		height = val.getFloat("height");
 		name = val.getString("name");
+		solid = val.getBoolean("solid");
 	}
 	
 	public JsonValue toJson() {
 		JsonValue ret = new JsonValue(ValueType.object);
 		ret.addChild("x", new JsonValue(x));
 		ret.addChild("y", new JsonValue(y));
+		ret.addChild("width", new JsonValue(width));
+		ret.addChild("height", new JsonValue(height));
 		ret.addChild("name", new JsonValue(name));
+		ret.addChild("solid", new JsonValue(solid));
 		return ret;
 	}
 	
 	public void render(SpriteBatch batch) {
 		if(texture != null)
 			batch.draw(texture, x, y, width, height);
+	}
+	
+	public boolean isSolid() {
+		return solid;
 	}
 	
 	public Level getLevel() {

@@ -38,6 +38,7 @@ public class LevelEditorScreen extends Screen {
 	private int curTileId = 0;
 	private float entX, entY;
 	private int spawnX, spawnY;
+	private boolean needsRelease = false;
 	
 	public LevelEditorScreen() {
 		id = Integer.parseInt(JOptionPane.showInputDialog("Level ID to load or create:"));
@@ -118,10 +119,11 @@ public class LevelEditorScreen extends Screen {
 			if(tx >= 0 && ty >= 0 && tx < width && ty < height) {
 				entX = tx;
 				entY = ty;
-			}else {
+			}else if(!needsRelease){
 				for(TextureButton b : buttons)
 					if(b.getBounds().contains(coords))
 						b.onClick();
+				needsRelease = true;
 			}
 		}else if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			// Draw on map
@@ -135,6 +137,8 @@ public class LevelEditorScreen extends Screen {
 					if(b.getBounds().contains(coords))
 						b.onClick();
 			}
+		}else {
+			needsRelease = false;
 		}
 	}
 	

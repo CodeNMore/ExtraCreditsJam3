@@ -55,6 +55,7 @@ public class Level {
 	}
 	
 	public void tick(float delta) {
+		// Tick all entities
 		entityManager.tick(delta);
 		
 		// Instant-center

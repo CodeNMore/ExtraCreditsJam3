@@ -27,8 +27,9 @@ public class EntityManager {
 		}
 		toAdd.clear();
 		
-		for(Entity e : entities)
+		for(Entity e : entities) {
 			e.tick(delta);
+		}
 		
 		for(Entity e : toRemove) {
 			if(player.equals(e))
@@ -50,6 +51,14 @@ public class EntityManager {
 				level.getCam().frustum.pointInFrustum(e.getX() + e.getWidth(), e.getY(), 0) ||
 				level.getCam().frustum.pointInFrustum(e.getX(), e.getY() + e.getHeight(), 0) ||
 				level.getCam().frustum.pointInFrustum(e.getX() + e.getWidth(), e.getY() + e.getHeight(), 0);
+	}
+	
+	public Array<Entity> getSolidEntities(){
+		Array<Entity> ret = new Array<Entity>();
+		for(int i = 0;i < entities.size;i++)
+			if(entities.get(i).isSolid())
+				ret.add(entities.get(i));
+		return ret;
 	}
 	
 	public Player getPlayer() {

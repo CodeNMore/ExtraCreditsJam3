@@ -38,6 +38,15 @@ public class EntityFactory {
 			public Entity make(JsonValue json) {
 				return new XControlTrigger(json);
 			}});
+		registerEntity("Box", new EntityMaker() {
+			@Override
+			public Entity makeEditor(float x, float y) {
+				return new Box(x, y);
+			}
+			@Override
+			public Entity make(JsonValue json) {
+				return new Box(json);
+			}});
 	}
 	
 	public static Entity makeEntity(String name, JsonValue json) {

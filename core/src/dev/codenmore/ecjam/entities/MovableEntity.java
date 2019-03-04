@@ -1,6 +1,7 @@
 package dev.codenmore.ecjam.entities;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.JsonValue;
 
 import dev.codenmore.ecjam.level.Level;
 import dev.codenmore.ecjam.level.tile.Tile;
@@ -17,8 +18,15 @@ public abstract class MovableEntity extends Entity {
 		super(name, x, y, width, height);
 	}
 	
+	public MovableEntity(JsonValue json) {
+		super(json);
+	}
+	
 	private float isYCollisions(float oldY) {
 		Rectangle cb = getCollisionBounds();
+		
+		// Return y value
+		float retY = cb.y;
 		
 		if(oldY >= cb.y) {
 			// Downward or stationary travel
@@ -29,9 +37,6 @@ public abstract class MovableEntity extends Entity {
 			int farTy = (int) (cb.y / Tile.TILE_SIZE);
 			int startTx = (int) (cb.x / Tile.TILE_SIZE);
 			int endTx = (int) ((cb.x + cb.width - 1) / Tile.TILE_SIZE);
-			
-			// Return y value
-			float retY = cb.y;
 			
 			// Check collisions
 			for(int tx = startTx;tx <= endTx;tx++) {
@@ -69,7 +74,6 @@ public abstract class MovableEntity extends Entity {
 			
 			// Return appropriate Y value
 			onGround = shouldBeOnGround;
-			return retY;
 		}else if(oldY < cb.y){
 			// Upward travel
 			onGround = false;
@@ -84,18 +88,31 @@ public abstract class MovableEntity extends Entity {
 					// For now only checking if solid
 					if(getLevel().getTile(tx, ty).isSolid()) {
 						vy = 0f;
-						return ty * Tile.TILE_SIZE - cb.height;
+						retY = ty * Tile.TILE_SIZE - cb.height;
 					}
 				}
 			}
 		}
 		
+		// Check entities collisions
+		if(solid) {
+			for(Entity e : manager.getSolidEntities()) {
+				if(e.equals(this))
+					continue;
+				// Still check if solid in case
+				if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+					retY = oldY;
+				}
+			}
+		}
+		
 		// Base case always return current position
-		return cb.y;
+		return retY;
 	}
 	
 	private float isXCollisions(float oldX) {
 		Rectangle cb = getCollisionBounds();
+		float retX = cb.x;
 		
 		if(oldX > cb.x) {
 			// Left travel
@@ -109,7 +126,7 @@ public abstract class MovableEntity extends Entity {
 					// For now only checking if solid
 					if(getLevel().getTile(tx, ty).getSlope() == TileSlope.SOLID) {
 						vx = 0f;
-						return tx * Tile.TILE_SIZE + Tile.TILE_SIZE;
+						retX = tx * Tile.TILE_SIZE + Tile.TILE_SIZE;
 					}
 				}
 			}
@@ -125,14 +142,35 @@ public abstract class MovableEntity extends Entity {
 					// For now only checking if solid
 					if(getLevel().getTile(tx, ty).getSlope() == TileSlope.SOLID) {
 						vx = 0f;
-						return tx * Tile.TILE_SIZE - cb.width;
+						retX = tx * Tile.TILE_SIZE - cb.width;
 					}
 				}
 			}
 		}
 		
-		// Base case always return current position
-		return cb.x;
+		// Check entities collisions
+		if(solid) {
+			for(Entity e : manager.getSolidEntities()) {
+				if(e.equals(this))
+					continue;
+				// Still check if solid in case
+				if(e.getCollisionBounds().overlaps(getCollisionBounds())) {
+					if(canPushOthers && e instanceof PushableEntity) {
+						if(oldX < retX) {
+							// Right push
+							((PushableEntity) e).push(250);
+						}else if(retX < oldX) {
+							// Left push
+							((PushableEntity) e).push(-250);
+						}
+					}
+					// Still collide
+					retX = oldX;
+				}
+			}
+		}
+		
+		return retX;
 	}
 	
 	protected void processMovements(float delta) {
@@ -167,6 +205,10 @@ public abstract class MovableEntity extends Entity {
 	protected void jump(int strength) {
 		if(!isOnGround()) return;
 		vy += Level.GRAVITY * strength;
+	}
+	
+	protected void push(int strength) {
+		vx += strength;
 	}
 
 }
